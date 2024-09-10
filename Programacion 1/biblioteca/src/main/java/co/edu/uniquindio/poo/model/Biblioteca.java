@@ -7,8 +7,9 @@ public class Biblioteca {
     public Biblioteca(String nombre){ //String nombre es el parametro que entra
         this.nombre = nombre;
     }
-
+    
     public Biblioteca(){
+        System.out.println(nombre);
         
     }
 

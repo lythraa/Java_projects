@@ -13,6 +13,7 @@ public class App {
         
         String nombreBiblioteca = JOptionPane.showInputDialog(null, "por favor ingrese el nombre de la biblioteca");
         Biblioteca mibi = new Biblioteca(nombreBiblioteca);
+        JOptionPane.showMessageDialog(null,mibi);
 
     }
 }
