@@ -23,11 +23,11 @@ public class App {
         String edadMiembro = JOptionPane.showInputDialog(null, "Ingrese la edad del miembro");
         String generoMiembro = JOptionPane.showInputDialog(null, "Ingrese el género del miembro");
         String cedulaMiembro = JOptionPane.showInputDialog(null, "Ingrese la cédula del miembro");
-        // Supongamos que tienes una clase Membresia y creas una instancia
-        Membresia membresia = new Membresia(); // Reemplaza esto con la inicialización adecuada
-
+        String membresiaMiembroString = JOptionPane.showInputDialog(null, "Ingrese la membresía del miembro: (MENSUAL,TRIMESTRAL, ANUAL)");
+        Membresia membresiaMiembro = Membresia.valueOf(membresiaMiembroString.toUpperCase()); // Convierte la cadena en un enum
+    
         // Crear una instancia de Miembro
-        Miembro nuevoMiembro = new Miembro(nombreMiembro, edadMiembro, generoMiembro, cedulaMiembro, membresia);
+        Miembro nuevoMiembro = new Miembro(nombreMiembro, edadMiembro, generoMiembro, cedulaMiembro, membresiaMiembro);
 
         // Añadir el nuevo miembro al entrenador
         entrenador1.asignarMiembroEntrenador(nuevoMiembro);
