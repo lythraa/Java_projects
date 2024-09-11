@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -524,49 +525,45 @@ public class Agenda {
     }
 
     /**
-     * Retorna una matriz con las reuniones. Cada fila representa un conjunto de
+     * 6. Retorna una matriz con las reuniones. Cada fila representa un conjunto de
      * reuniones
      * basado en un rango de fechas específico.
+     * fila 0   1-11-22 al 30-11-22
+     * fila 1   1-12-22 al 31-12-22
+     * fila 2   1-1-22  al 30-12-22
      * 
      * @return Una matriz de LocalDate donde cada fila contiene las fechas de
      *         reuniones en el rango especificado.
      */
-    public LocalDate[][] obtenerReuniones() {
-        // Crear una matriz de 3 filas
-        LocalDate[][] matrizReuniones = new LocalDate[3][];
+    public Reunion[][] matrizReuniones(){
+        Reunion[][] matrizReunion = new Reunion[3][listaReuniones.length];
 
-        // Crear los rangos de fechas
-        LocalDate[] fila0 = generarFechas(LocalDate.of(2022, 11, 1), LocalDate.of(2022, 11, 30));
-        LocalDate[] fila1 = generarFechas(LocalDate.of(2022, 12, 1), LocalDate.of(2022, 12, 31));
-        LocalDate[] fila2 = generarFechas(LocalDate.of(2022, 1, 1), LocalDate.of(2022, 12, 30));
+        LocalDate fechaInicio1 = LocalDate.of(22, 11, 1);
+        LocalDate fechaFin1 = LocalDate.of(22, 11, 30);
+        LocalDate fechaInicio2 = LocalDate.of(22, 12, 1);
+        LocalDate fechaFin2 = LocalDate.of(22, 12, 31);
+        LocalDate fechaInicio3 = LocalDate.of(22, 1, 1);
+        LocalDate fechaFin3 = LocalDate.of(22, 12, 30);
 
-        matrizReuniones[0] = fila0;
-        matrizReuniones[1] = fila1;
-        matrizReuniones[2] = fila2;
+        matrizReunion[0] = obtenerReunionFila(fechaInicio1, fechaFin1);
+        matrizReunion[1] = obtenerReunionFila(fechaInicio2, fechaFin2);
+        matrizReunion[2] = obtenerReunionFila(fechaInicio3, fechaFin3);
 
-        return matrizReuniones;
+
+        return matrizReunion;
     }
 
-    /**
-     * Genera un arreglo de fechas entre una fecha de inicio y una fecha de fin.
-     * 
-     * @param inicio Fecha de inicio del rango.
-     * @param fin    Fecha de fin del rango.
-     * @return Un arreglo de LocalDate con todas las fechas en el rango dado.
-     */
-    private LocalDate[] generarFechas(LocalDate inicio, LocalDate fin) {
-        // Calcular el tamaño del arreglo en función de los días entre inicio y fin
-        long diasEntre = ChronoUnit.DAYS.between(inicio, fin);
-        LocalDate[] fechas = new LocalDate[(int) diasEntre + 1]; // +1 para incluir la fecha de fin
-        LocalDate actual = inicio;
+    public Reunion[] obtenerReunionFila(LocalDate fechaInicio, LocalDate fechaFin){
+        Reunion[] arreglo = new Reunion[listaReuniones.length];
+        int i = 0; 
 
-        // Llenar el arreglo de fechas
-        for (int i = 0; i <= diasEntre; i++) {
-            fechas[i] = actual;
-            actual = actual.plusDays(1);
+        for (Reunion reunion : listaReuniones) {
+            if (reunion.getFecha().isAfter(fechaInicio) && reunion.getFecha().isBefore(fechaFin)) {
+                arreglo[i] = reunion;
+                i++;
+            }
         }
-
-        return fechas;
+        return arreglo;
     }
 
     /**

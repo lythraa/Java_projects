@@ -45,6 +45,10 @@ public class App {
                     // Termina la ejecución de la aplicación
                     System.exit(0);
                     break;
+
+                default:
+                JOptionPane.showMessageDialog(null, "la mala");
+                break;
             }
         }
     }

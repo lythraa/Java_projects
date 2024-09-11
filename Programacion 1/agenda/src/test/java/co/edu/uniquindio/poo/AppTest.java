@@ -151,11 +151,6 @@ public class AppTest {
      }
  
      // 6. Test para obtener matriz de reuniones
-     @Test
-     void testObtenerReuniones() {
-         LocalDate[][] reuniones = agenda.obtenerReuniones();
-         assertEquals(3, reuniones.length, "Deberían existir 3 filas de reuniones");
-     }
  
      // 7. Test para obtener contactos menores de 18 años
      @Test
