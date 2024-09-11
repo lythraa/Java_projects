@@ -26,7 +26,6 @@ public class AppTest {
 
     private Agenda agenda;
     private Contacto contacto1;
-    private Contacto contacto2;
     private Grupo grupo1;
     private Reunion reunion1;
 
@@ -34,7 +33,6 @@ public class AppTest {
     void setUp() {
         agenda = new Agenda(10, 5, 5);
         contacto1 = new Contacto("Juan", "Alias1", "Calle 1", "111111", "juan@mail.com", 20);
-        contacto2 = new Contacto("Maria", "Alias2", "Calle 2", "222222", "maria@mail.com", 16);
         grupo1 = new Grupo("Amigos", Categoria.AMIGOS);
         reunion1 = new Reunion("Reunion1", LocalDate.now(), Time.valueOf("10:00:00"), 5);
     }

@@ -1,7 +1,6 @@
 package co.edu.uniquindio.poo.app;
 
 import javax.swing.JOptionPane;
-import java.util.Scanner;
 import co.edu.uniquindio.poo.model.Entrenador;
 import co.edu.uniquindio.poo.model.Miembro;
 import co.edu.uniquindio.poo.model.Membresia;

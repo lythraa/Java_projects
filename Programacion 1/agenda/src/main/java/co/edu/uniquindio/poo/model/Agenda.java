@@ -3,8 +3,6 @@ package co.edu.uniquindio.poo.model;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -363,7 +361,7 @@ public class Agenda {
         this.listaGrupos = listaGrupos;
     }
 
-    
+    //
     /**
      * 6. Retorna una matriz con las reuniones. Cada fila representa un conjunto de
      * reuniones
