@@ -473,7 +473,10 @@ public class Agenda {
     
 
 
-    //Obtener el promedio de edades de los contactos
+    /**
+     * 5. Obtener el promedio de las edades de los contactos
+     * @return
+     */
     public double promedioEdadesContactos(){
         int sumaEdades=0;
         int conteoContactos = 0;
@@ -492,13 +495,47 @@ public class Agenda {
     }
 
 
+/**
+     * 6. Retorna una matriz con las reuniones. Cada fila representa un conjunto de
+     * reuniones
+     * basado en un rango de fechas específico.
+     * fila 0   1-11-22 al 30-11-22
+     * fila 1   1-12-22 al 31-12-22
+     * fila 2   1-1-22  al 30-12-22
+     * 
+     * @return Una matriz de LocalDate donde cada fila contiene las fechas de
+     *         reuniones en el rango especificado.
+     */
+    public Reunion[][] matrizReuniones(){
+        Reunion[][] matrizReunion = new Reunion[3][listaReuniones.length];
+
+        LocalDate fechaInicio1 = LocalDate.of(22, 11, 1);
+        LocalDate fechaFin1 = LocalDate.of(22, 11, 30);
+        LocalDate fechaInicio2 = LocalDate.of(22, 12, 1);
+        LocalDate fechaFin2 = LocalDate.of(22, 12, 31);
+        LocalDate fechaInicio3 = LocalDate.of(22, 1, 1);
+        LocalDate fechaFin3 = LocalDate.of(22, 12, 30);
+
+        matrizReunion[0] = obtenerReunionFila(fechaInicio1, fechaFin1);
+        matrizReunion[1] = obtenerReunionFila(fechaInicio2, fechaFin2);
+        matrizReunion[2] = obtenerReunionFila(fechaInicio3, fechaFin3);
 
 
+        return matrizReunion;
+    }
 
+    public Reunion[] obtenerReunionFila(LocalDate fechaInicio, LocalDate fechaFin){
+        Reunion[] arreglo = new Reunion[listaReuniones.length];
+        int i = 0; 
 
-
-
-
+        for (Reunion reunion : listaReuniones) {
+            if (reunion.getFecha().isAfter(fechaInicio) && reunion.getFecha().isBefore(fechaFin)) {
+                arreglo[i] = reunion;
+                i++;
+            }
+        }
+        return arreglo;
+    }
 
 
 
