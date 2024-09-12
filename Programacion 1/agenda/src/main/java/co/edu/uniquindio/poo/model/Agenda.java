@@ -73,7 +73,7 @@ public class Agenda {
         for (int index = 0; index < listaContactos.length; index++) {
             if (listaContactos[index] != null) {
                 if (listaContactos[index].equals(contacto)) {
-                    contactoEncontrado = contacto;
+                    contactoEncontrado = listaContactos[index];
                 }
             }
         }
@@ -225,7 +225,7 @@ public class Agenda {
         String mensaje = "No se ha encontrado el grupo";
         Grupo grupoEncontrado = buscarGrupo(grupo);
         if (grupoEncontrado != null) {
-            grupo.setNombre(JOptionPane.showInputDialog("Ingrese el nuevo nombre: "));
+            grupoEncontrado.setNombre(JOptionPane.showInputDialog("Ingrese el nuevo nombre: "));
             mensaje = "Grupo actualizado con exito";
         }
         System.out.println(mensaje);
@@ -335,10 +335,7 @@ public class Agenda {
     @Override
     public String toString() {
         return "Agenda [listaContactos=" + Arrays.toString(listaContactos) + ", listaReuniones="
-                + Arrays.toString(listaReuniones) + ", listaGrupos=" + Arrays.toString(listaGrupos) + ", getClass()="
-                + getClass() + ", hashCode()=" + hashCode() + ", getListaContactos()="
-                + Arrays.toString(getListaContactos()) + ", getListaReuniones()=" + Arrays.toString(getListaReuniones())
-                + ", getListaGrupos()=" + Arrays.toString(getListaGrupos()) + ", toString()=" + super.toString() + "]";
+                + Arrays.toString(listaReuniones) + ", listaGrupos=" + Arrays.toString(listaGrupos) + "]";
     }
 
     public void setListaContactos(Contacto[] listaContactos) {
@@ -352,16 +349,154 @@ public class Agenda {
     public void setListaReuniones(Reunion[] listaReuniones) {
         this.listaReuniones = listaReuniones;
     }
-
+    
     public Grupo[] getListaGrupos() {
         return listaGrupos;
     }
-
+    
     public void setListaGrupos(Grupo[] listaGrupos) {
         this.listaGrupos = listaGrupos;
     }
 
-    //
+
+    /** =============================TALLER MÉTODOS AGENDA=============================
+     *AUTORA: LEIDY SUAREZ ALVAREZ
+     *FECHA: 
+     *
+     *Obtener el promedio de edades de los contactos
+    */ 
+
+
+    /*
+     * 1 Imprimir los contactos de las posiciones impares
+     */
+    public void imprimirContactosImpares(){
+        
+        for (int i = 0; i < listaContactos.length; i++) {
+            if (i%2!=0){
+                System.out.println(listaContactos[i]);
+            }
+
+        }
+        
+    }
+
+
+    /**
+     * 2.1 Obtener cual es la edad que más se repite
+     * 
+     * Bucle para ejecutar y definir el mayor conteo de
+     * un método que cuenta las veces que una determinada
+     * edad se repite
+     * @return
+     */
+    public int edadModa(){
+        int edadMasRepite=0;
+        int conteoEdadMasRepite=0;
+        for (Contacto contacto : listaContactos) {
+            if (contacto != null){
+                int edad = contacto.getEdad();
+                int conteoXEdad = conteoXEdad(edad);
+                if (conteoXEdad>conteoEdadMasRepite){
+                    conteoEdadMasRepite=conteoXEdad;
+                    edadMasRepite=edad;
+                }
+            }
+        }
+        return edadMasRepite;
+    }
+
+    /**
+     * 2.2 Obtener cual es la edad que más se repite
+     * 
+     * método que cuenta las veces que una determinada
+     * edad se repite
+     * @param edad
+     * @return
+     */
+    public int conteoXEdad(int edad){
+        int conteoEdad=0;
+        for (Contacto contacto : listaContactos) {
+            if (contacto!=null && contacto.getEdad()==edad){
+                conteoEdad++;
+            }
+        }
+        return conteoEdad;
+
+    }
+
+    
+    /**
+     * 3.eliminar los contactos que tengan en su nombre al menos 3 vocales
+     * @return 
+     */
+
+    //fori
+    public void eliminarContactos3Vocales_1(){
+        for (int i = 0; i < listaContactos.length; i++) {
+            if (listaContactos[i]!= null){
+                String nombreContacto=listaContactos[i].getNombres();
+                char[] caracteres = nombreContacto.toCharArray();
+                int conteoVocales=0;
+                for (char c : caracteres) {
+                    if (c == 'a' || c =='e'|| c =='i'|| c =='o'|| c =='u'){
+                        conteoVocales++;
+                    }
+                }
+                if (conteoVocales>=3){
+                    eliminarContacto(listaContactos[i]);
+
+                }
+            }
+        }
+    }
+    //foreach
+    public void eliminarContactos3Vocales_2(){
+        for (Contacto contacto : listaContactos) {
+            if (contacto!=null){
+                char[] caracteres = contacto.getNombres().toCharArray();
+                int conteoVocales=0;
+                for (char c : caracteres) {
+                    if (c == 'a' || c =='e'|| c =='i'|| c =='o'|| c =='u'){
+                        conteoVocales++;
+                    }
+                }
+                if (conteoVocales>=3){
+                    eliminarContacto(contacto);
+
+                }
+            }
+        }
+    }
+
+
+    //Obtener el grupo que tenga la mayor cantidad de contactos asociados
+    public Grupo grupoMayorCantidadContactos(){
+        int numeroGrupoMayorCantidadContactos =0;
+        Grupo grupoMayorCantidadContactos=null;
+        for (Grupo grupo : listaGrupos) {
+            if (grupo!= null && grupo.getNumContactosGrupo()>numeroGrupoMayorCantidadContactos){
+                numeroGrupoMayorCantidadContactos=grupo.getNumContactosGrupo();
+                grupoMayorCantidadContactos=grupo;
+            }
+        }
+        return grupoMayorCantidadContactos;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * 6. Retorna una matriz con las reuniones. Cada fila representa un conjunto de
      * reuniones
@@ -373,6 +508,30 @@ public class Agenda {
      * @return Una matriz de LocalDate donde cada fila contiene las fechas de
      *         reuniones en el rango especificado.
      */
-    
 
+
+    
+    /*METODOS QUE NO FUNCIONARON:---------------------------------------------------------
+    
+    NO SIRVE POR QUE EL ELIMINAR SE HACE A PARTIR DE UN CONTACTO NO UNA POSICION,
+    ADEMAS eliminarContacto NO ES ESTATICO:
+
+    public void eliminarContactos3Vocales (){
+        for (int i = 0; i < listaContactos.length; i++) {
+            String nombreContacto=listaContactos[i].getNombres();
+            char[] caracteres = nombreContacto.toCharArray();
+            int conteoVocales=0;
+            for (char c : caracteres) {
+                if (c == 'a' || c =='e'|| c =='i'|| c =='o'|| c =='u'){
+                    conteoVocales++;
+                }
+            }
+            if (conteoVocales>=3){
+                Agenda.eliminarContacto(listaContactos[i]);
+
+            }
+        }
+    }
+     */
+    //=============================FIN TALLER MÉTODOS AGENDA=============================
 }

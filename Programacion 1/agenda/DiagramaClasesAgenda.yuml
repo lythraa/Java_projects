@@ -1,0 +1,10 @@
+// {type:class}
+// {direction:topDown}
+[note: notita{bg:cornsilk}]
+[Customer]<>1-orders 0..*>[Order]
+[Order]++*-*>[LineItem]
+[Order]-1>[DeliveryMethod]
+[Order]*-*>[Product|EAN_Code|promo_price()|]
+[Category]<->[Product]
+[DeliveryMethod]^[National]
+[DeliveryMethod]^[International]
