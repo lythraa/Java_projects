@@ -6,7 +6,6 @@ public class Grupo {
     private String nombre;
     private Categoria categoria;
     private Contacto[] listaContactosPertenecientes;
-    int numContactosGrupo=0;
 
     //constructor
     public Grupo(String nombre, Categoria categoria){
@@ -38,7 +37,6 @@ public class Grupo {
                 if (listaContactosPertenecientes[i] == null) {
                     listaContactosPertenecientes[i] = contacto;
                     mensaje = "Contacto añadido correctamente";
-                    numContactosGrupo++;
                     break;
                 }
             }
@@ -57,7 +55,6 @@ public class Grupo {
             if (listaContactosPertenecientes[i].equals(contacto)){
                 listaContactosPertenecientes[i] = null;
                 mensaje = "Contacto eliminado exitosamente";
-                numContactosGrupo--;
                 break;
             }
         }
@@ -119,16 +116,6 @@ public class Grupo {
     public void setListaContactosPertenecientes(Contacto[] listaContactosPertenecientes) {
         this.listaContactosPertenecientes = listaContactosPertenecientes;
     }
-
-    public int getNumContactosGrupo() {
-        return numContactosGrupo;
-    }
-
-
-    public void setNumContactosGrupo(int numContactosGrupo) {
-        this.numContactosGrupo = numContactosGrupo;
-    }
-
 
     @Override
     public int hashCode() {

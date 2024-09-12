@@ -68,11 +68,11 @@ public class Agenda {
      * 
      * @param grupo
      */
-    public Contacto buscarContacto(Contacto contacto) {
+    public Contacto buscarContacto(String string) {
         Contacto contactoEncontrado = null;
         for (int index = 0; index < listaContactos.length; index++) {
             if (listaContactos[index] != null) {
-                if (listaContactos[index].equals(contacto)) {
+                if (listaContactos[index].equals(string)) {
                     contactoEncontrado = listaContactos[index];
                 }
             }
@@ -362,8 +362,6 @@ public class Agenda {
     /** =============================TALLER MÉTODOS AGENDA=============================
      *AUTORA: LEIDY SUAREZ ALVAREZ
      *FECHA: 
-     *
-     *Obtener el promedio de edades de los contactos
     */ 
 
 
@@ -471,20 +469,27 @@ public class Agenda {
 
 
     //Obtener el grupo que tenga la mayor cantidad de contactos asociados
-    public Grupo grupoMayorCantidadContactos(){
-        int numeroGrupoMayorCantidadContactos =0;
-        Grupo grupoMayorCantidadContactos=null;
-        for (Grupo grupo : listaGrupos) {
-            if (grupo!= null && grupo.getNumContactosGrupo()>numeroGrupoMayorCantidadContactos){
-                numeroGrupoMayorCantidadContactos=grupo.getNumContactosGrupo();
-                grupoMayorCantidadContactos=grupo;
+    //public Grupo grupoMayorCantidadContactos(){
+    
+
+
+    //Obtener el promedio de edades de los contactos
+    public double promedioEdadesContactos(){
+        int sumaEdades=0;
+        int conteoContactos = 0;
+        for (Contacto contacto : listaContactos) {
+            if (contacto!=null && contacto.getEdad()> 0){
+                conteoContactos++;
+                sumaEdades +=  contacto.getEdad();
             }
         }
-        return grupoMayorCantidadContactos;
+        if (conteoContactos == 0) {
+            return 0.0;
+        }
+
+        double promedioEdadesContactos= (double)sumaEdades/conteoContactos;
+        return promedioEdadesContactos;
     }
-
-
-
 
 
 
