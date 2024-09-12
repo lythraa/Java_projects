@@ -51,45 +51,45 @@ public class AgendaTest {
     @Test
     public void testAgregarContacto() {
         agenda.añadirContacto(contacto1);
-        assertEquals(contacto1, agenda.buscarContacto("Juan Pérez"));
+        assertEquals(contacto1, agenda.buscarContacto(contacto1));
     }
 
     @Test
     public void testEliminarContacto() {
         agenda.añadirContacto(contacto1);
         agenda.eliminarContacto(contacto1);
-        assertNull(agenda.buscarContacto("Juan Pérez"));
+        assertNull(agenda.buscarContacto(contacto1));
     }
 
     @Test
     public void testBuscarContacto() {
         agenda.añadirContacto(contacto1);
-        assertEquals(contacto1, agenda.buscarContacto("Juan Pérez"));
+        assertEquals(contacto1, agenda.buscarContacto(contacto1));
     }
 
     @Test
     public void testAgregarGrupo() {
         agenda.añadirGrupo(grupo1);
-        assertEquals(grupo1, agenda.buscarGrupo("Amigos"));
+        assertEquals(grupo1, agenda.buscarGrupo(grupo1));
     }
 
     @Test
     public void testEliminarGrupo() {
         agenda.añadirGrupo(grupo1);
         agenda.eliminarGrupo(grupo1);
-        assertNull(agenda.buscarGrupo("Amigos"));
+        assertNull(agenda.buscarGrupo(grupo1));
     }
 
     @Test
     public void testAgregarReunion() {
         agenda.añadirReunion(reunion1);
-        assertEquals(reunion1, agenda.buscarReunion("Reunión de equipo"));
+        assertEquals(reunion1, agenda.buscarReunion(reunion1));
     }
 
     @Test
     public void testEliminarReunion() {
         agenda.añadirReunion(reunion1);
         agenda.eliminarReunion(reunion1);
-        assertNull(agenda.buscarReunion("Reunión de equipo"));
+        assertNull(agenda.buscarReunion(reunion1));
     }
 }

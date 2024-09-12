@@ -2,7 +2,6 @@ package co.edu.uniquindio.poo.application;
 import java.util.Arrays;
 import co.edu.uniquindio.poo.model.Agenda;
 import co.edu.uniquindio.poo.model.Contacto;
-import co.edu.uniquindio.poo.model.Grupo;
 
 public class App {
     public static void main(String[] args) {
@@ -25,7 +24,6 @@ public class App {
 
         agenda.eliminarContactos3Vocales_2();
         System.out.println(Arrays.toString(agenda.getListaContactos()));
-
         
         Grupo grupo_a=new Grupo("amigos", null);
         grupo_a.añadirContactoGrupo(contacto1);

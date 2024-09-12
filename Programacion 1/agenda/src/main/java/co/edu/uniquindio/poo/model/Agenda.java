@@ -68,11 +68,11 @@ public class Agenda {
      * 
      * @param grupo
      */
-    public Contacto buscarContacto(String string) {
+    public Contacto buscarContacto(Contacto contacto) {
         Contacto contactoEncontrado = null;
         for (int index = 0; index < listaContactos.length; index++) {
             if (listaContactos[index] != null) {
-                if (listaContactos[index].equals(string)) {
+                if (listaContactos[index].equals(contacto)) {
                     contactoEncontrado = listaContactos[index];
                 }
             }
