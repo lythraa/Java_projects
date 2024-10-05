@@ -146,10 +146,12 @@ public class Biblioteca {
      * @return Un mensaje indicando si el bibliotecario fue encontrado y editado o
      *         no.
      */
-    public String editarBibliotecario(Bibliotecario bibliotecario, Bibliotecario nuevBibliotecario) {
+    public String editarBibliotecario(Bibliotecario bibliotecario, Bibliotecario nuevoBibliotecario) {
         String mensaje = "No se encontró el elemento";
         if (buscarBibliotecario(bibliotecario) != null) {
-            listaBibliotecarios.set(listaBibliotecarios.indexOf(bibliotecario), nuevBibliotecario);
+            listaBibliotecarios.set(listaBibliotecarios.indexOf(bibliotecario), nuevoBibliotecario);
+            mensaje = "Bibliotecario editado con exito";
+
         }
         return mensaje;
     }
