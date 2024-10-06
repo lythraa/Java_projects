@@ -1,10 +1,10 @@
 package co.edu.uniquindio.poo.model;
 
 public class DetallePrestamo {
-    
+
+    private String isbn;
     private double subTotal;
     private int cantidad;
-    private String isbn;
 
     public DetallePrestamo(String isbn ,double subTotal, int cantidad){
         this.isbn = isbn;
@@ -18,6 +18,7 @@ public class DetallePrestamo {
         return isbn;
     }
 
+    
     public void setIsbn(String nombre) {
         this.isbn = nombre;
     }
