@@ -24,29 +24,17 @@ public class Prestamo {
         this.estudiantesPrestamo = estudiantesPrestamo;
     }
 
-
     /**
-     * Metodo para añadir un detalle a un prestamo
+     * Metodo para añadir y crear un detalle a un prestamo
      * @param codigoPrestamo
-     * @param isbn
+     * @param 
      * @param subtotal
      * @param cantidad
-     * @return Un mensaje indicando que el DetallePrestamo se agrego, no existía el prestamo o no habían suficientes unidades disponibles para realizarlo.
-     *
-    public String añadirDetallePrestamo(String codigoPrestamo, String isbn, double subtotal, int cantidad) {
-        Prestamo prestamo = listaPrestamos.get(codigoPrestamo);
-        Libro libro = buscarLibroPorIsbn(isbn);
-
-        if (prestamo == null){
-            return "Prestamo no encontrado.";
-        }
-        if (libro == null || libro.getUnidadesDisponibles()<cantidad){
-            return "No hay suficientes unidades disponibles.";
-        }
-
-        libro.setUnidadesDisponibles(libro.getUnidadesDisponibles() - cantidad);//actualizacion de cantidad ded libros
-        prestamo.getListaDetallePrestamos().put(isbn, new DetallePrestamo(isbn, subtotal, cantidad));
-
+     * @return Un mensaje indicando que el DetallePrestamo se agrego
+     */
+    public String crearAñadirDetallePrestamo(Libro libro, int cantidad) {
+        DetallePrestamo detalle = new DetallePrestamo(libro, cantidad);
+        listaDetallePrestamos.add(detalle);
         return "Detalle del producto añadido correctamente.";
     }
 

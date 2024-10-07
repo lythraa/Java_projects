@@ -11,20 +11,35 @@ public class Libro {
     private String titulo;
     private String editorial;
     private LocalDate fecha;
+    private double precio;
     private int unidadesDisponibles;
     private LinkedList<Prestamo> listaPrestamos;
 
     public Libro(String codigo, String isbn, String autor, String titulo, String editorial, LocalDate fecha,
-            int unidadesDisponibles) {
+            double precio, int unidadesDisponibles) {
         this.codigo = codigo;
         this.isbn = isbn;
         this.autor = autor;
         this.titulo = titulo;
         this.editorial = editorial;
         this.fecha = fecha;
+        this.precio=precio;
         this.unidadesDisponibles = unidadesDisponibles;
         this.listaPrestamos = new LinkedList<>();
 
+    }
+
+    public boolean prestarLibro(int cantidad) {
+        if (unidadesDisponibles > cantidad) {
+            unidadesDisponibles -= cantidad;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean devolverLibro(int cantidad) {
+        unidadesDisponibles+= cantidad;
+        return true;
     }
 
 
@@ -92,5 +107,13 @@ public class Libro {
     public void setListaPrestamos(LinkedList<Prestamo> listaPrestamos) {
         this.listaPrestamos = listaPrestamos;
     }
-    
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
 }

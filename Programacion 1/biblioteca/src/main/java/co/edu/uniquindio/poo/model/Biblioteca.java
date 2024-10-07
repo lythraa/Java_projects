@@ -24,6 +24,8 @@ public class Biblioteca {
 
     //añadir eliminar y actualizar reciben objetos
     //mientras que buscar solo la llave y retorna un objeto
+
+    //manejar la excepcion de colocar vacias las claves
     //──────────────────────── ≪CRUD LIBRO≫ ────────────────────────//
     
     /**
@@ -31,7 +33,7 @@ public class Biblioteca {
      * 
      * @param libro El libro a añadir.
      * @return Un mensaje indicando si el libro fue añadido correctamente o si ya existía.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException si el libro es  nulo
      */
     public String añadirLibro(Libro libro) throws IllegalArgumentException{
         if (libro==null){
@@ -47,20 +49,19 @@ public class Biblioteca {
     /**
      * ELIMINA un libro de la lista de libros si existe.
      * 
-     * @param libro El libro a eliminar.
+     * @param libroEliminar El libro a eliminar.
      * @return Un mensaje indicando si el libro fue eliminado correctamente o si
      *         no existe en la lista.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException si el libro es nulo
      */
-    public String eliminarLibro(Libro libro) throws IllegalArgumentException{ 
-        if (libro==null){
+    public String eliminarLibro(Libro libroEliminar) throws IllegalArgumentException{ 
+        if (libroEliminar==null){
             throw new IllegalArgumentException("El libro no puede ser nulo");
         }
-        if (!listaLibros.containsKey(libro.getIsbn())){
+        if (!listaLibros.containsKey(libroEliminar.getIsbn())){
             return "El libro no existe";
         }
-        listaLibros.containsKey(libro.getIsbn());
-        listaLibros.remove(libro.getIsbn());
+        listaLibros.remove(libroEliminar.getIsbn());
         return "Libro eliminado correctamente";
     }
 
@@ -69,10 +70,10 @@ public class Biblioteca {
      * 
      * @param isbn
      * @return devuelve el libro encontrado
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException si el isbn es nulo o vacio
      */
     public Libro buscarLibroPorIsbn(String isbn) throws IllegalArgumentException{
-        if (isbn==null){
+        if (isbn==null||isbn.isEmpty()){
             throw new IllegalArgumentException("El isbn no puede ser nulo");
         }
     
@@ -85,92 +86,107 @@ public class Biblioteca {
      * ACTUALIZA un libro existente en la lista reemplazándolo por uno nuevo.
      * 
      * @param isbn El isbn del libro a buscar
-     * @param nuevoLibro El nuevo libro con la información actualizada.
+     * @param libroActualizado El nuevo libro con la información actualizada.
      * @return Un mensaje indicando si el libro fue encontrado y editado o no.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException si el isbn es nulo o el libro es nulo
      */
-    public String actualizarLibro(String isbn, Libro nuevoLibro) throws IllegalArgumentException{
-        if (isbn==null || nuevoLibro==null){
-            throw new IllegalArgumentException("El libro no puede ser nulo");
+    public String actualizarLibro(String isbn, Libro libroActualizado) throws IllegalArgumentException{
+        if (isbn==null || libroActualizado==null){
+            throw new IllegalArgumentException("El isbn o el libro no puede ser nulo");
         }
-        if (listaLibros.get(isbn)==null){
-            return "No se encontró el libro";
+        if (buscarLibroPorIsbn(isbn)==null){
+            return "No se encontró el libro a editar";
         }
-        listaLibros.put(isbn, nuevoLibro);
+        listaLibros.put(isbn, libroActualizado);
         return "Libro editado correctamente";
     }
     
 
-    //──────────────────────── ≪CRUD BIBLIOTECARIO≫ ────────────────────────
+    //──────────────────────── ≪CRUD BIBLIOTECARIO≫ ────────────────────────//
 
     /**
-     * Añade un bibliotecario a la lista si no existe ya.
+     * AÑADE un bibliotecario a la lista si no existe ya.
      * 
      * @param bibliotecario El bibliotecario a añadir.
      * @return Un mensaje indicando si el bibliotecario fue añadido correctamente o
      *         si ya existía.
+     * @throws IllegalArgumentException
      */
-    public String añadirBibliotecrio(Bibliotecario bibliotecario) {
-        String mensaje = "Bibliotecario ya existe";
-        if (!listaBibliotecarios.contains(bibliotecario)) {
-            listaBibliotecarios.add(bibliotecario);
-            mensaje = "Bibliotecario añadido correctamente";
+    public String añadirBibliotecario(Bibliotecario bibliotecario) throws IllegalArgumentException{
+        if (bibliotecario==null){
+            throw new IllegalArgumentException("El bibliotecario no puede ser nulo");
         }
-        return mensaje;
+        if (listaBibliotecarios.contains(bibliotecario)){
+            return "El bibliotecario ya existe";
+        }
+        listaBibliotecarios.add(bibliotecario);
+        return "Bibliotecario añadido correctamente";
+
     }
 
     /**
-     * Elimina un bibliotecario de la lista si existe.
+     * ELIMINA un bibliotecario de la lista si existe.
      * 
      * @param bibliotecario El bibliotecario a eliminar.
      * @return Un mensaje indicando si el bibliotecario fue eliminado correctamente
      *         o si no existía.
+     * @throws IllegalArgumentException
      */
-    public String eliminarBibliotecrio(Bibliotecario bibliotecario) {
-        String mensaje = "Bibliotecario no existe";
-        if (listaBibliotecarios.contains(bibliotecario)) {
-            listaBibliotecarios.remove(bibliotecario);
-            mensaje = "Bibliotecario eliminado correctamente";
+    public String eliminarBibliotecario(Bibliotecario bibliotecario) throws IllegalArgumentException{
+        if (bibliotecario==null){
+            throw new IllegalArgumentException("El Bibliotecario no puede ser nulo");
         }
-
-        return mensaje;
+        if(!listaBibliotecarios.contains(bibliotecario)){
+            return "El Bibliotecario no existe";
+        }
+        listaBibliotecarios.remove(bibliotecario);
+            return "Bibliotecario eliminado correctamente";
     }
 
+    
     /**
-     * Busca un bibliotecario en la lista.
+     * BUSCA un bibliotecario en la lista por su id.
      * 
-     * @param bibliotecario El bibliotecario a buscar.
-     * @return El bibliotecario encontrado o null si no se encuentra en la lista.
+     * @param idBuscar la id del bibliotecario que se quiere buscar
+     * @return El bibliotecario encontrado o null si no se encuentra en la lista
+     * @throws IllegalArgumentException si la id es nula o vacia
      */
-    public Bibliotecario buscarBibliotecario(Bibliotecario bibliotecario) {
-        for (int i = 0; i < listaBibliotecarios.size(); i++) {
-            if (listaBibliotecarios.get(i).equals(bibliotecario)) {
-                return bibliotecario;
-            }
+    public Bibliotecario buscarBibliotecarioId(String idBuscar) throws IllegalArgumentException{
+        if (idBuscar==null||idBuscar.isEmpty()){
+            throw new IllegalArgumentException("La id no puede ser nula");
+        }
+        for (Bibliotecario bibliotecario : listaBibliotecarios) {
+            if(bibliotecario.getId().equals(idBuscar))
+            return bibliotecario;
         }
         return null;
     }
 
     /**
-     * Edita un bibliotecario existente en la lista reemplazándolo por uno nuevo.
+     * ACTUALIZA un bibliotecario existente en la lista reemplazándolo por uno nuevo.
      * 
-     * @param bibliotecario      El bibliotecario actual que se desea editar.
-     * @param nuevoBibliotecario El nuevo bibliotecario con la información
-     *                           actualizada.
-     * @return Un mensaje indicando si el bibliotecario fue encontrado y editado o
-     *         no.
+     * @param id la id del bibliotecario que se desea actualizar
+     * @param nuevoBibliotecario El nuevo bibliotecario con la información actualizada
+     * @return Un mensaje indicando si el bibliotecario fue editado o no se encontró
+     * @throws IllegalArgumentException si la id es nula o vacía, o si el nuevo bibliotecario es nulo
      */
-    public String editarBibliotecario(Bibliotecario bibliotecario, Bibliotecario nuevoBibliotecario) {
-        String mensaje = "No se encontró el elemento";
-        if (buscarBibliotecario(bibliotecario) != null) {
-            listaBibliotecarios.set(listaBibliotecarios.indexOf(bibliotecario), nuevoBibliotecario);
-            mensaje = "Bibliotecario editado con exito";
-
+    public String actualizarBibliotecario(String id, Bibliotecario nuevoBibliotecario) throws IllegalArgumentException{
+        if(id==null||id.isEmpty()){
+            throw new IllegalArgumentException("la id no puede ser nula o vacía");
         }
-        return mensaje;
+        if(nuevoBibliotecario==null){
+            throw new IllegalArgumentException("El bibliotecario no puede ser nulo");
+        }
+        if (buscarBibliotecarioId(id) == null) {
+            return "No se encontró el bibliotecario";
+        }
+        Bibliotecario oldBibl = buscarBibliotecarioId(id);
+        listaBibliotecarios.set(listaBibliotecarios.indexOf(oldBibl), nuevoBibliotecario);
+        return "Bibliotecario editado con éxito";
+
     }
 
-    //──────────────────────── ≪CRUD ESTUDIANTE≫ ────────────────────────
+    //──────────────────────── ≪CRUD ESTUDIANTE≫ ────────────────────────//
 
     /**
      * AÑADE un estudiante a la lista si no existe ya por si id (id)
@@ -178,15 +194,15 @@ public class Biblioteca {
      * @param estudiante El estudiante a añadir.
      * @return Un mensaje indicando si el estudiante fue añadido correctamente o si
      *         ya existía.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException si el estudiante es nulo
      */
     public String añadirEstudiante(Estudiante estudiante) throws IllegalArgumentException{
         if (estudiante==null){
             throw new IllegalArgumentException("El estudiante no puede ser nulo");
         }
-        if (listaEstudiantes.containsKey(estudiante.getId()))
+        if (listaEstudiantes.containsKey(estudiante.getId())){
             return "El estudiante ya existe o su id ya esta registrada";
-
+        }
         listaEstudiantes.put(estudiante.getId(), estudiante);
         return  "Estudiante añadido exitosamente";
     }
@@ -194,50 +210,91 @@ public class Biblioteca {
     /**
      * ELIMINA un estudiante de la lista si existe.
      * 
-     * @param id El ID del estudiante a eliminar.
+     * @param estudianteEliminar estudiante a eliminar
      * @return Un mensaje indicando si el estudiante fue eliminado correctamente o
      *         si no existía.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException si el estudiante es nulo
      */
-    public String eliminarEstudiante(Estudiante estudiante) throws IllegalArgumentException{
-        if(estudiante==null){
+    public String eliminarEstudiante(Estudiante estudianteEliminar) throws IllegalArgumentException{
+        if(estudianteEliminar==null){
             throw new IllegalArgumentException("El estudiante no puede ser nulo");
         }
-        if(!listaEstudiantes.containsKey(estudiante.getId())){
+        if(!listaEstudiantes.containsKey(estudianteEliminar.getId())){
             return "El estudiante no existe";
         }
-        listaEstudiantes.remove(estudiante.getId());
+        listaEstudiantes.remove(estudianteEliminar.getId());
         return "Estudiante eliminado correctamente";
     }
 
     /**
-     * Busca un estudiante en la lista por su ID.
+     * BUSCA un estudiante en la lista por su ID.
      * 
      * @param id El ID del estudiante a buscar.
      * @return El estudiante encontrado o null si no se encuentra en la lista.
+     * @throws IllegalArgumentException si la id es nula o vacia
      */
-    public Estudiante buscarEstudianteId(String id) {
-        return listaEstudiantes.get(id);
+    public Estudiante buscarEstudianteId(String id) throws IllegalArgumentException{
+        if(id==null || id.isEmpty()){
+            throw new IllegalArgumentException("La id no puede ser nula");
+        }
+        Estudiante estudianteEncontrado = listaEstudiantes.get(id);
+        return estudianteEncontrado;
     }
 
     /**
-     * Edita un estudiante existente en la lista reemplazándolo por uno nuevo.
+     * ACTUALIZA un estudiante existente en la lista reemplazándolo por uno nuevo.
      * 
      * @param id              El ID del estudiante actual que se desea editar.
-     * @param estudianteNuevo El nuevo estudiante con la información actualizada.
+     * @param estudianteActualizado El nuevo estudiante con la información actualizada.
      * @return Un mensaje indicando si el estudiante fue encontrado y editado o no.
+     * @throws IllegalArgumentException si la id o el estudiante a actualizar es nulo
      */
-    public String editarEstudiante(String id, Estudiante estudianteNuevo) {
-        String mensaje = "No se encontró";
-        if (buscarEstudianteId(id) != null) {
-            listaEstudiantes.put(id, estudianteNuevo);
-            mensaje = "Elemento editado correctamente";
+    public String actualizarEstudiante(String id, Estudiante estudianteActualizado) throws IllegalArgumentException{
+        if (id==null || estudianteActualizado==null){
+            throw new IllegalArgumentException("La id o el estudiante no pueden ser nulos");
         }
-        return mensaje;
+        if (buscarEstudianteId(id)==null) {
+            return "No se encontró el estudiante a editar";
+        }
+        listaEstudiantes.put(id, estudianteActualizado);
+        return "Estudiante actualizado exitosamente";
     }
 
-    //──────────────────────── ≪CRUD PRESTAMO≫ ────────────────────────
+    //──────────────────────── ≪CRUD PRESTAMO + crear prestamo≫ ────────────────────────
 
+    //MATENMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+    //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+    public String crearAñadirPrestamo(LocalDate fechaPrestamo, String codigo,
+                              Bibliotecario bibliotecarioPrestamo,
+                              Estudiante estudiantesPrestamo, 
+                              HashMap<String, Integer> listaLibrosPedidos){
+
+        String resultado = "";
+        LinkedList<DetallePrestamo> listaDetallePrestamos = null;
+        Prestamo prestamo = new Prestamo(fechaPrestamo, null, codigo, 0, listaDetallePrestamos, bibliotecarioPrestamo, estudiantesPrestamo);
+        double total = 0.0;
+        for (String isbn : listaLibrosPedidos.keySet()) {
+            Libro libroPedido = buscarLibroPorIsbn(isbn);//si no encuentra el libro es null
+            int cantidad = listaLibrosPedidos.get(isbn);
+
+            if (libroPedido!=null){ //aqui confirma que el libro existe
+                if (libroPedido.prestarLibro(cantidad)) {
+                    prestamo.crearAñadirDetallePrestamo(libroPedido, cantidad);
+                    resultado +="Se han prestado "+cantidad+" de copias del libro: " +libroPedido.getTitulo();
+
+                } else {
+                    return "No hay suficientes unidades disponibles del libro "+libroPedido.getTitulo()+"para ser prestadas";
+                }
+
+            }else{
+                return "El libro con el codigo "+isbn+"existe";
+            }
+            
+        prestamo.setListaDetallePrestamos(listaDetallePrestamos);
+        prestamo.setTotal(total);    
+        }
+        return resultado;
+    }
 
     /**
      * Añade un préstamo a la lista si no existe ya.
@@ -246,7 +303,9 @@ public class Biblioteca {
      * @return Un mensaje indicando si el préstamo fue añadido correctamente o si ya
      *         existía.
      */
-    public String añadirPrestamo(Prestamo prestamo, Bibliotecario bibliotecario, Estudiante estudiante) {
+    
+    
+    public String añadirPrestamo(Prestamo prestamo,  Bibliotecario bibliotecario, Estudiante estudiante) {
         String mensaje = "";
         if (!listaPrestamos.containsValue(prestamo)) {
             listaPrestamos.put(prestamo.getCodigo(), prestamo);
@@ -316,7 +375,7 @@ public class Biblioteca {
      * busca un libro por su codigo
      * @param codigo
      * @return
-     */
+     *
     public Libro buscarLibroCodigo(String codigo){
         for (int index = 0; index < listaLibros.size(); index++) {
             String codigoaux = listaLibros.get(index).getCodigo();
@@ -325,7 +384,8 @@ public class Biblioteca {
             }
         }
         return null;
-    }
+    }/
+    
 
     /**
      * busca un libro por su nombre

@@ -2,48 +2,42 @@ package co.edu.uniquindio.poo.model;
 
 public class DetallePrestamo {
 
-    private String isbn;
+    private Libro libroPrestamo;
     private double subTotal;
     private int cantidad;
 
-    public DetallePrestamo(String isbn ,double subTotal, int cantidad){
-        this.isbn = isbn;
-        this.subTotal = subTotal;
+    public DetallePrestamo(Libro libroPrestamo, int cantidad){
+        this.libroPrestamo=libroPrestamo;
         this.cantidad = cantidad;
-
+        this.subTotal = calcularSubtotal();
     }
 
-
-    public String getIsbn() {
-        return isbn;
+    public double calcularSubtotal(){
+        return libroPrestamo.getPrecio()*cantidad;
     }
 
-    
-    public void setIsbn(String nombre) {
-        this.isbn = nombre;
+    public Libro getLibroPrestamo() {
+        return libroPrestamo;
     }
 
-
+    public void setLibroPrestamo(Libro libroPrestamo) {
+        this.libroPrestamo = libroPrestamo;
+    }
 
     public double getSubTotal() {
         return subTotal;
     }
 
-
-
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
-
-
 
     public int getCantidad() {
         return cantidad;
     }
 
-
-
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
+    } 
+
 }
