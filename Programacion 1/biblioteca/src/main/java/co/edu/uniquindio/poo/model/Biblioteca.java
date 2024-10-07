@@ -262,60 +262,40 @@ public class Biblioteca {
 
     //──────────────────────── ≪CRUD PRESTAMO + crear prestamo≫ ────────────────────────
 
-    //MATENMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    public String crearAñadirPrestamo(LocalDate fechaPrestamo, String codigo,
-                              Bibliotecario bibliotecarioPrestamo,
-                              Estudiante estudiantesPrestamo, 
-                              HashMap<String, Integer> listaLibrosPedidos){
-
+    /**
+     * CREA Y AÑADE un prestamo a la lista de prestamos
+     * 
+     * @param fechaPrestamo
+     * @param codigo
+     * @param bibliotecarioPrestamo
+     * @param estudiantesPrestamo
+     * @param listaLibrosPedidos
+     * @return un mensaje con lo que ocurrio con cada libro pedido.
+     */
+    public String crearAñadirPrestamo(LocalDate fechaPrestamo, String codigo, Bibliotecario bibliotecarioPrestamo,
+                              Estudiante estudiantesPrestamo, HashMap<String, Integer> listaLibrosPedidos){
         String resultado = "";
-        LinkedList<DetallePrestamo> listaDetallePrestamos = null;
-        Prestamo prestamo = new Prestamo(fechaPrestamo, null, codigo, 0, listaDetallePrestamos, bibliotecarioPrestamo, estudiantesPrestamo);
-        double total = 0.0;
+        LinkedList<DetallePrestamo> listaDetallePrestamos = new LinkedList<>();
+        Prestamo prestamo = new Prestamo(fechaPrestamo, null, codigo,listaDetallePrestamos, bibliotecarioPrestamo, estudiantesPrestamo);
+
         for (String isbn : listaLibrosPedidos.keySet()) {
-            Libro libroPedido = buscarLibroPorIsbn(isbn);//si no encuentra el libro es null
+            Libro libroPedido = buscarLibroPorIsbn(isbn);
             int cantidad = listaLibrosPedidos.get(isbn);
 
-            if (libroPedido!=null){ //aqui confirma que el libro existe
-                if (libroPedido.prestarLibro(cantidad)) {
-                    prestamo.crearAñadirDetallePrestamo(libroPedido, cantidad);
-                    resultado +="Se han prestado "+cantidad+" de copias del libro: " +libroPedido.getTitulo();
-
-                } else {
-                    return "No hay suficientes unidades disponibles del libro "+libroPedido.getTitulo()+"para ser prestadas";
-                }
+            if (libroPedido==null){
+                resultado += "El libro con el código "+ isbn +" no existe\n";
+            }
+            else if (!libroPedido.prestarLibro(cantidad)) {
+                resultado += "No hay suficientes unidades disponibles del libro "+libroPedido.getTitulo()+" para ser prestadas\n";
 
             }else{
-                return "El libro con el codigo "+isbn+"existe";
+                prestamo.crearAñadirDetallePrestamo(libroPedido, cantidad);
+                resultado +="Se han prestado "+cantidad+" de copias del libro: " +libroPedido.getTitulo()+"\n";
             }
             
-        prestamo.setListaDetallePrestamos(listaDetallePrestamos);
-        prestamo.setTotal(total);    
         }
         return resultado;
     }
-
-    /**
-     * Añade un préstamo a la lista si no existe ya.
-     * 
-     * @param prestamo El préstamo a añadir.
-     * @return Un mensaje indicando si el préstamo fue añadido correctamente o si ya
-     *         existía.
-     */
-    
-    
-    public String añadirPrestamo(Prestamo prestamo,  Bibliotecario bibliotecario, Estudiante estudiante) {
-        String mensaje = "";
-        if (!listaPrestamos.containsValue(prestamo)) {
-            listaPrestamos.put(prestamo.getCodigo(), prestamo);
-            bibliotecario.getListaPrestamosDeUnBibliotecario().add(prestamo);
-            estudiante.getListaPrestamosDeUnEstudiante().add(prestamo);
-            
-            mensaje = "Prestamo añadido exitosamente";
-        }
-        return mensaje;
-    } 
 
     /**
      * Elimina un préstamo de la lista si existe.
@@ -401,22 +381,11 @@ public class Biblioteca {
      * 3.3
      * @param nombre
      * @return
-     *
-
-    public int cantidadPrestamosLibro(String nombre){
-        int numeroPrestamos = 0; 
-        for (Prestamo prestamo : listaPrestamos.values()) {
-            for (DetallePrestamo detalle : prestamo.getListaDetallePrestamos().values()) {
-                Libro libro = buscarLibroPorIsbn(detalle.getIsbn());
-                if (libro.getTitulo().equalsIgnoreCase(nombre)) {
-                    numeroPrestamos++;
-                }
-            } 
-        }
-        
-        return numeroPrestamos;
+     */
+    public int cantidadPrestamosLibro(String isbn){
+        return buscarLibroPorIsbn(isbn).getListaPrestamos().size();
     }
-        */
+        
     
     //3.4 = editarLibro.
 

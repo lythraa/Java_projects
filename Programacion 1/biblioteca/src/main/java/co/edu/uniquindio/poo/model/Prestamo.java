@@ -12,18 +12,26 @@ public class Prestamo {
     private Bibliotecario bibliotecarioPrestamo;
     private Estudiante estudiantesPrestamo;
  
-    public Prestamo(LocalDate fechaPrestamo, LocalDate fechaEntrega, String codigo, double total,
+    public Prestamo(LocalDate fechaPrestamo, LocalDate fechaEntrega, String codigo,
             LinkedList<DetallePrestamo> listaDetallePrestamos, Bibliotecario bibliotecarioPrestamo,
             Estudiante estudiantesPrestamo) {
         this.fechaPrestamo = fechaPrestamo;
         this.fechaEntrega = fechaEntrega;
         this.codigo = codigo;
-        this.total = total;
         this.listaDetallePrestamos = listaDetallePrestamos;
         this.bibliotecarioPrestamo = bibliotecarioPrestamo;
         this.estudiantesPrestamo = estudiantesPrestamo;
+        this.total = calcularTotal();
     }
-
+    
+    
+    public double calcularTotal(){
+        double resultado =0.0;
+        for (DetallePrestamo detallePrestamo : listaDetallePrestamos) {
+            resultado+= detallePrestamo.getSubTotal();
+        }
+        return resultado;
+    }
     /**
      * Metodo para añadir y crear un detalle a un prestamo
      * @param codigoPrestamo
@@ -38,75 +46,42 @@ public class Prestamo {
         return "Detalle del producto añadido correctamente.";
     }
 
-
-    /**
-     * Elimina un detalle de préstamo asociado a un producto por su nombre.
-     * @param codigoPrestamo
-     * @param isbn
-     * @return Un mensaje indicando si el detalle fue eliminado correctamente o si
-     *         no se encontró el producto.
-     *
-    public String eliminarDetalleProducto(String codigoPrestamo,String isbn) {
-        Prestamo prestamo = listaPrestamos.get(codigoPrestamo);
-        if  (prestamo == null){
-            return "Prestamo no encontrado";
+    public String eliminarDetallePrestamo(String codigoPrestamo, String isbn) {
+        for (DetallePrestamo detalle : listaDetallePrestamos) {
+            if (detalle.getLibroPrestamo().getIsbn().equals(isbn)) {
+                listaDetallePrestamos.remove(detalle);
+                detalle.getLibroPrestamo().devolverLibro(detalle.getCantidad());
+                return "Detalle eliminado correctamente.";
+            }
         }
-
-        DetallePrestamo detalle = prestamo.getListaDetallePrestamos().get(isbn);
-        if (detalle == null){
-            return "Detalle no encontrado en el prestamo";
-        }
-
-        Libro libro = buscarLibroPorIsbn(isbn);
-        
-        if (libro != null) {
-            libro.setUnidadesDisponibles(libro.getUnidadesDisponibles() + detalle.getCantidad());
-        }
-        prestamo.getListaDetallePrestamos().remove(isbn);
-
-        return "Detalle eliminado correctamente.";
+        return "Detalle no encontrado.";
     }
 
-    /**
-     * Busca un detalle de préstamo por el nombre del producto.
-     * @param codigoPrestamo
-     * @param isbn
-     * @return El detalle de préstamo encontrado o null si no se encuentra en la
-     *         lista.
-     *
-    public DetallePrestamo buscarDetallePrestamo(String codigoPrestamo,String isbn) {
-        Prestamo prestamo = listaPrestamos.get(codigoPrestamo);
-        return prestamo.getListaDetallePrestamos().get(isbn);
-    }
-
+    public String editarDetallePrestamo(String isbn, int nuevaCantidad) {
+        for (DetallePrestamo detalle : listaDetallePrestamos) {
+            if (detalle.getLibroPrestamo().getIsbn().equals(isbn)) {
+                detalle.getLibroPrestamo().devolverLibro(detalle.getCantidad());
+                detalle.getLibroPrestamo().prestarLibro(nuevaCantidad);
     
-     /**
-      * Edita el detalle de un producto en el préstamo.
-      * @param codigoPrestamo
-      * @param isbn
-      * @param nuevaCantidad  La nueva cantidad del producto.
-      * @param nuevoSubtotal  El nuevo subtotal del producto.
-      * @return Un mensaje indicando si el detalle fue editado correctamente o si no
-     *         se encontró el producto.
-      *
-    public String editarDetallePrestamo(String codigoPrestamo, String isbn, int nuevaCantidad, double nuevoSubtotal) {
-        Prestamo prestamo = listaPrestamos.get(codigoPrestamo);
-        if (prestamo ==null){
-            return "Prestamo no encontrado.";
+                // Actualiza la cantidad y el subtotal
+                detalle.setCantidad(nuevaCantidad);
+                detalle.setSubTotal(detalle.calcularSubtotal());
+                return "Detalle del producto editado correctamente.";
+            }
         }
-        
-        DetallePrestamo detalle = prestamo.getListaDetallePrestamos().get(isbn);
-        if (detalle ==null) {
-            return "Detalle no encontrado.";
-        }
-        detalle.setIsbn(isbn);
-        detalle.setCantidad(nuevaCantidad);
-        detalle.setSubTotal(nuevoSubtotal);
-
-        return "Detalle del producto editado correctamente";
-         
+        return "Detalle no encontrado.";
     }
-            */
+
+    public DetallePrestamo buscarDetallePrestamo(String isbn) {
+        for (DetallePrestamo detalle : listaDetallePrestamos) {
+            if (detalle.getLibroPrestamo().getIsbn().equals(isbn)) {
+                return detalle;
+            }
+        }
+        return null;
+    }
+    
+
     public LocalDate getFechaPrestamo() {
         return fechaPrestamo;
     }
