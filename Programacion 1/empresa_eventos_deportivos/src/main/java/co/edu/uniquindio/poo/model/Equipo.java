@@ -13,6 +13,9 @@ public class Equipo {
         this.listaAtletasEquipo = listaAtletasEquipo;
     }
 
+    //agregar y quitar atleta del equipo
+
+
     public String getNombre() {
         return nombre;
     }

@@ -4,135 +4,121 @@ import java.util.LinkedList;
 
 public class EmpresaEventosDeportivos {
     public String nombre;
-    public LinkedList<EventoDeportivo> listaEventos;
+    public LinkedList<EventoDeportivo> listaEventosDeportivos;
     public LinkedList<Persona> listaPersonas;
 
     public EmpresaEventosDeportivos(String nombre) {
         this.nombre = nombre;
-        this.listaEventos = new LinkedList<EventoDeportivo>();
+        this.listaEventosDeportivos = new LinkedList<EventoDeportivo>();
         this.listaPersonas = new LinkedList<Persona>(); //inician vacias no nulas!!!
+    }
+
+    //3.	Realizar el método para obtener una colección de atletas que participaron en un evento deportivo de natación de tipo competición.
+    public LinkedList atletasEventoCompeticionNatacion(){
+        return listaEventosDeportivos.stream()
+                                     .filter(EventoDeportivo->.getTipoEvento().equals(TipoEvento.COMPETICION))
+                                     &&EventoDeportivo.getDeporte=="natacion"
     }
 
     //──────────────────────── ≪CRUD PERSONA≫ ────────────────────────//
     
-    public String agregarPersona(Persona persona) throws IllegalArgumentException{
+    public Boolean agregarPersona(Persona persona) throws IllegalArgumentException{
         if (persona==null){
             throw new IllegalArgumentException("Persona no puede ser nula");
         }
-        if (buscarPersonaNombreApellido(persona.getNombre(), persona.getApellidos())!=null){
-            return "Repetido";
+        if (buscarPersona(persona)==null){
+            return false;
         }
         listaPersonas.add(persona);
-        return "Añadido";
+        return true;
     }
 
     
-    public Persona buscarPersonaNombreApellido(String nombre, String apellidos) throws IllegalArgumentException{
-        if (nombre==null || apellidos==null){
-            throw new IllegalArgumentException("Los nombres a buscar no pueden ser nulos");
+    public Persona buscarPersona(Persona personaBusqueda) throws IllegalArgumentException{
+        if (personaBusqueda==null){
+            throw new IllegalArgumentException("Persona no puede ser nula");
         }
-        for (Persona persona : listaPersonas) {
-            if (persona.getNombre()==nombre &&persona.getApellidos()==apellidos){
-                return persona;
-            }
-        }
-        return null;
+        return listaPersonas.stream()
+                            .filter(persona->persona.equals(personaBusqueda))
+                            .findFirst()
+                            .orElse(null);
     }
 
     
-    public String actualizarPersona(String nombre, String apellidos, Persona nuevaPersona) throws IllegalArgumentException{
-        if (nombre==null || apellidos==null||nuevaPersona==null){
-            throw new IllegalArgumentException("Los nombres o la persona no pueden ser nulos");
+    public Boolean actualizarPersona(Persona personaObsoleta, Persona personaNueva) throws IllegalArgumentException{
+        if (personaObsoleta==null||personaNueva==null){
+            throw new IllegalArgumentException("Persona no puede ser nula");
         }
-        if (buscarPersonaNombreApellido(nombre, apellidos)==null){
-            return "No existe";
+        if (buscarPersona(personaObsoleta)==null){
+            return false;
         }
-        eliminarPersona(nombre, apellidos);
-        agregarPersona(nuevaPersona);
-        return "Actualizado";
+        eliminarPersona(personaObsoleta);
+        agregarPersona(personaNueva);
+        return true;
 
     }
 
-    public String eliminarPersona(String nombre, String apellidos) throws IllegalArgumentException{
-        if(nombre==null || apellidos==null){
-            throw new IllegalArgumentException("Los nombres no pueden ser nulos");
+    public Boolean eliminarPersona(Persona persona) throws IllegalArgumentException{
+        if(persona==null){
+            throw new IllegalArgumentException("Persona no puede ser nula");
         }
-        if(buscarPersonaNombreApellido(nombre, apellidos)==null){
-            return "No existe";
+        if(buscarPersona(persona)==null){
+            return false;
         }
-        listaPersonas.remove(buscarPersonaNombreApellido(nombre, apellidos));
-        return "Eliminado";
+        listaPersonas.remove(persona);
+        return true;
     }
 
     //──────────────────────── ≪CRUD EventoDeportivo≫ ────────────────────────//
 
-     // Crear: Agregar un nuevo evento
-     public void agregarEvento(EventoDeportivo evento) {
-        listaEventos.add(evento);
-    }
-
-    // Leer: Obtener un evento por su nombre
-    public EventoDeportivo obtenerEvento(String nombre) {
-        for (EventoDeportivo evento : listaEventos) {
-            if (evento.getNombre().equalsIgnoreCase(nombre)) {
-                return evento;
-            }
+    public Boolean agregarEventoDeportivo(EventoDeportivo EventoDeportivo) throws IllegalArgumentException{
+        if (EventoDeportivo==null){
+            throw new IllegalArgumentException("EventoDeportivo no puede ser nulo");
         }
-        return null; // Si no se encuentra, devolver null
-    }
-
-    // Actualizar: Modificar un evento existente
-    public boolean actualizarEvento(String nombre, EventoDeportivo nuevoEvento) {
-        for (int i = 0; i < listaEventos.size(); i++) {
-            if (listaEventos.get(i).getNombre().equalsIgnoreCase(nombre)) {
-                listaEventos.set(i, nuevoEvento);
-                return true; // Evento actualizado
-            }
+        if (buscarEventoDeportivo(EventoDeportivo)==null){
+            return false;
         }
-        return false; // Evento no encontrado
+        listaEventosDeportivos.add(EventoDeportivo);
+        return true;
     }
-
-    // Borrar: Eliminar un evento por su nombre
-    public boolean eliminarEvento(String nombre) {
-        return listaEventos.removeIf(evento -> evento.getNombre().equalsIgnoreCase(nombre));
+    
+    
+    public EventoDeportivo buscarEventoDeportivo(EventoDeportivo EventoDeportivoBusqueda) throws IllegalArgumentException{
+        if (EventoDeportivoBusqueda==null){
+            throw new IllegalArgumentException("EventoDeportivo no puede ser nulo");
+        }
+        return listaEventosDeportivos.stream()
+                            .filter(EventoDeportivo->EventoDeportivo.equals(EventoDeportivoBusqueda))
+                            .findFirst()
+                            .orElse(null);
     }
-
-    // Obtener todos los eventos
-    public LinkedList<EventoDeportivo> obtenerTodosLosEventos() {
-        return new LinkedList<>(listaEventos); // Devuelve una copia de la lista
+    
+    
+    public Boolean actualizarEventoDeportivo(EventoDeportivo EventoDeportivoObsoleto, EventoDeportivo EventoDeportivoNuevo) throws IllegalArgumentException{
+        if (EventoDeportivoObsoleto==null||EventoDeportivoNuevo==null){
+            throw new IllegalArgumentException("EventoDeportivo no puede ser nulo");
+        }
+        if (buscarEventoDeportivo(EventoDeportivoObsoleto)==null){
+            return false;
+        }
+        eliminarEventoDeportivo(EventoDeportivoObsoleto);
+        agregarEventoDeportivo(EventoDeportivoNuevo);
+        return true;
+    
+    }
+    
+    public Boolean eliminarEventoDeportivo(EventoDeportivo EventoDeportivo) throws IllegalArgumentException{
+        if(EventoDeportivo==null){
+            throw new IllegalArgumentException("EventoDeportivo no puede ser nulo");
+        }
+        if(buscarEventoDeportivo(EventoDeportivo)==null){
+            return false;
+        }
+        listaEventosDeportivos.remove(EventoDeportivo);
+        return true;
     }
 
 
     
-    public String getNombre() {
-        return nombre;
-    }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public LinkedList<EventoDeportivo> getListaEventosDeportivos() {
-        return listaEventos;
-    }
-
-    public void setListaEventosDeportivos(LinkedList<EventoDeportivo> listaEventosDeportivos) {
-        this.listaEventos = listaEventosDeportivos;
-    }
-
-    public LinkedList<Persona> getListaPersonas() {
-        return listaPersonas;
-    }
-
-    public void setListaPersonas(LinkedList<Persona> listaPersonas) {
-        this.listaPersonas = listaPersonas;
-    }
-
-    @Override
-    public String toString() {
-        return "EmpresaEventosDeportivos [nombre=" + nombre + ", listaEventosDeportivos=" + listaEventos
-                + ", listaPersonas=" + listaPersonas + "]";
-    }
-
-    
 }

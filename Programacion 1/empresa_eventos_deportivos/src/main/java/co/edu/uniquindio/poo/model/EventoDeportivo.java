@@ -26,57 +26,168 @@ public class EventoDeportivo {
     }
 
     //──────────────────────── ≪CRUD PARTICIPANTE≫ ────────────────────────//
-
-    public String agregarParticipante(Participante Participante) throws IllegalArgumentException{
+    public Boolean agregarParticipante(Participante Participante) throws IllegalArgumentException{
         if (Participante==null){
-            throw new IllegalArgumentException("Participante no puede ser nula");
+            throw new IllegalArgumentException("Participante no puede ser nulo");
         }
-        if (buscarParticipanteNombreApellido(Participante.getPersonaParticipante().getNombre(), Participante.getPersonaParticipante().getApellidos())!=null){
-            return "Repetido";
+        if (buscarParticipante(Participante)==null){
+            return false;
         }
         listaParticipantes.add(Participante);
-        return "Añadido";
+        return true;
+    }
+    
+    
+    public Participante buscarParticipante(Participante ParticipanteBusqueda) throws IllegalArgumentException{
+        if (ParticipanteBusqueda==null){
+            throw new IllegalArgumentException("Participante no puede ser nulo");
+        }
+        return listaParticipantes.stream()
+                            .filter(Participante->Participante.equals(ParticipanteBusqueda))
+                            .findFirst()
+                            .orElse(null);
+    }
+    
+    
+    public Boolean actualizarParticipante(Participante ParticipanteObsoleto, Participante ParticipanteNuevo) throws IllegalArgumentException{
+        if (ParticipanteObsoleto==null||ParticipanteNuevo==null){
+            throw new IllegalArgumentException("Participante no puede ser nulo");
+        }
+        if (buscarParticipante(ParticipanteObsoleto)==null){
+            return false;
+        }
+        eliminarParticipante(ParticipanteObsoleto);
+        agregarParticipante(ParticipanteNuevo);
+        return true;
+    
+    }
+    
+    public Boolean eliminarParticipante(Participante Participante) throws IllegalArgumentException{
+        if(Participante==null){
+            throw new IllegalArgumentException("Participante no puede ser nulo");
+        }
+        if(buscarParticipante(Participante)==null){
+            return false;
+        }
+        listaParticipantes.remove(Participante);
+        return true;
     }
 
     
-    public Participante buscarParticipanteNombreApellido(String nombre, String apellidos) throws IllegalArgumentException{
-        if (nombre==null || apellidos==null){
-            throw new IllegalArgumentException("Los nombres a buscar no pueden ser nulos");
+    //──────────────────────── ≪CRUD EQUIPO≫ ────────────────────────//
+
+    public Boolean agregarEquipo(Equipo Equipo) throws IllegalArgumentException{
+        if (Equipo==null){
+            throw new IllegalArgumentException("Equipo no puede ser nulo");
         }
-        for (Participante Participante : listaParticipantes) {
-            if (Participante.getPersonaParticipante().getNombre()==nombre &&Participante.getPersonaParticipante().getApellidos()==apellidos){
-                return Participante;
-            }
+        if (buscarEquipo(Equipo)==null){
+            return false;
         }
-        return null;
+        listaEquipos.add(Equipo);
+        return true;
+    }
+    
+    
+    public Equipo buscarEquipo(Equipo EquipoBusqueda) throws IllegalArgumentException{
+        if (EquipoBusqueda==null){
+            throw new IllegalArgumentException("Equipo no puede ser nulo");
+        }
+        return listaEquipos.stream()
+                            .filter(Equipo->Equipo.equals(EquipoBusqueda))
+                            .findFirst()
+                            .orElse(null);
+    }
+    
+    
+    public Boolean actualizarEquipo(Equipo EquipoObsoleto, Equipo EquipoNuevo) throws IllegalArgumentException{
+        if (EquipoObsoleto==null||EquipoNuevo==null){
+            throw new IllegalArgumentException("Equipo no puede ser nulo");
+        }
+        if (buscarEquipo(EquipoObsoleto)==null){
+            return false;
+        }
+        eliminarEquipo(EquipoObsoleto);
+        agregarEquipo(EquipoNuevo);
+        return true;
+    
+    }
+    
+    public Boolean eliminarEquipo(Equipo Equipo) throws IllegalArgumentException{
+        if(Equipo==null){
+            throw new IllegalArgumentException("Equipo no puede ser nulo");
+        }
+        if(buscarEquipo(Equipo)==null){
+            return false;
+        }
+        listaEquipos.remove(Equipo);
+        return true;
+    }
+    
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDateTime fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getDeporte() {
+        return deporte;
+    }
+
+    public void setDeporte(String deporte) {
+        this.deporte = deporte;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public LinkedList<Participante> getListaParticipantes() {
+        return listaParticipantes;
+    }
+
+    public void setListaParticipantes(LinkedList<Participante> listaParticipantes) {
+        this.listaParticipantes = listaParticipantes;
+    }
+
+    public LinkedList<Equipo> getListaEquipos() {
+        return listaEquipos;
+    }
+
+    public void setListaEquipos(LinkedList<Equipo> listaEquipos) {
+        this.listaEquipos = listaEquipos;
+    }
+
+    public TipoEvento getTipoEvento() {
+        return tipoEvento;
+    }
+
+    public void setTipoEvento(TipoEvento tipoEvento) {
+        this.tipoEvento = tipoEvento;
     }
 
     
-    public String actualizarParticipante(String nombre, String apellidos, Participante nuevaParticipante) throws IllegalArgumentException{
-        if (nombre==null || apellidos==null||nuevaParticipante==null){
-            throw new IllegalArgumentException("Los nombres o la Participante no pueden ser nulos");
-        }
-        if (buscarParticipanteNombreApellido(nombre, apellidos)==null){
-            return "No existe";
-        }
-        eliminarParticipante(nombre, apellidos);
-        agregarParticipante(nuevaParticipante);
-        return "Actualizado";
-
-    }
-
-    public String eliminarParticipante(String nombre, String apellidos) throws IllegalArgumentException{
-        if(nombre==null || apellidos==null){
-            throw new IllegalArgumentException("Los nombres no pueden ser nulos");
-        }
-        if(buscarParticipanteNombreApellido(nombre, apellidos)==null){
-            return "No existe";
-        }
-        listaParticipantes.remove(buscarParticipanteNombreApellido(nombre, apellidos));
-        return "Eliminado";
-    }
-
-    
-
 
 }
