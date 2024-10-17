@@ -9,70 +9,43 @@ public class EventoDeportivo {
     private String deporte;
     private String pais;
     private String ciudad;
-    private LinkedList<Participante> listaParticipantes;
+    private LinkedList<Participante> listaParticipantesEvento;
     private LinkedList<Equipo> listaEquipos;
     private TipoEvento tipoEvento;
     
     public EventoDeportivo(String nombre, LocalDateTime fechaInicio, String deporte, String pais, String ciudad,
-            LinkedList<Participante> listaParticipantes, LinkedList<Equipo> listaEquipos, TipoEvento tipoEvento) {
+            LinkedList<Participante> listaParticipantesEvento, LinkedList<Equipo> listaEquipos, TipoEvento tipoEvento) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.deporte = deporte;
         this.pais = pais;
         this.ciudad = ciudad;
-        this.listaParticipantes = listaParticipantes;
+        this.listaParticipantesEvento = listaParticipantesEvento;
         this.listaEquipos = listaEquipos;
         this.tipoEvento = tipoEvento;
     }
 
-    //──────────────────────── ≪CRUD PARTICIPANTE≫ ────────────────────────//
-    public Boolean agregarParticipante(Participante Participante) throws IllegalArgumentException{
-        if (Participante==null){
-            throw new IllegalArgumentException("Participante no puede ser nulo");
+    public String agregarParticipante(Participante Participante) throws IllegalArgumentException {
+        if (Participante == null) {
+            throw new IllegalArgumentException("El Participante no puede ser nulo");
         }
-        if (buscarParticipante(Participante)==null){
-            return false;
+        if (listaParticipantesEvento.contains(Participante)) {
+            return "El Participante ya está en la lista";
         }
-        listaParticipantes.add(Participante);
-        return true;
+        listaParticipantesEvento.add(Participante);
+        return "Participante añadido";
     }
     
-    
-    public Participante buscarParticipante(Participante ParticipanteBusqueda) throws IllegalArgumentException{
-        if (ParticipanteBusqueda==null){
-            throw new IllegalArgumentException("Participante no puede ser nulo");
+    public String eliminarParticipante(Participante Participante) throws IllegalArgumentException {
+        if (Participante == null) {
+            throw new IllegalArgumentException("El Participante no puede ser nulo");
         }
-        return listaParticipantes.stream()
-                            .filter(Participante->Participante.equals(ParticipanteBusqueda))
-                            .findFirst()
-                            .orElse(null);
+        if (!listaParticipantesEvento.contains(Participante)) {
+            return "El Participante no se encuentra en la lista";
+        }
+        listaParticipantesEvento.remove(Participante);
+        return "Participante eliminado";
     }
-    
-    
-    public Boolean actualizarParticipante(Participante ParticipanteObsoleto, Participante ParticipanteNuevo) throws IllegalArgumentException{
-        if (ParticipanteObsoleto==null||ParticipanteNuevo==null){
-            throw new IllegalArgumentException("Participante no puede ser nulo");
-        }
-        if (buscarParticipante(ParticipanteObsoleto)==null){
-            return false;
-        }
-        eliminarParticipante(ParticipanteObsoleto);
-        agregarParticipante(ParticipanteNuevo);
-        return true;
-    
-    }
-    
-    public Boolean eliminarParticipante(Participante Participante) throws IllegalArgumentException{
-        if(Participante==null){
-            throw new IllegalArgumentException("Participante no puede ser nulo");
-        }
-        if(buscarParticipante(Participante)==null){
-            return false;
-        }
-        listaParticipantes.remove(Participante);
-        return true;
-    }
-
     
     //──────────────────────── ≪CRUD EQUIPO≫ ────────────────────────//
 
@@ -164,12 +137,12 @@ public class EventoDeportivo {
         this.ciudad = ciudad;
     }
 
-    public LinkedList<Participante> getListaParticipantes() {
-        return listaParticipantes;
+    public LinkedList<Participante> getlistaParticipantesEvento() {
+        return listaParticipantesEvento;
     }
 
-    public void setListaParticipantes(LinkedList<Participante> listaParticipantes) {
-        this.listaParticipantes = listaParticipantes;
+    public void setlistaParticipantesEvento(LinkedList<Participante> listaParticipantesEvento) {
+        this.listaParticipantesEvento = listaParticipantesEvento;
     }
 
     public LinkedList<Equipo> getListaEquipos() {

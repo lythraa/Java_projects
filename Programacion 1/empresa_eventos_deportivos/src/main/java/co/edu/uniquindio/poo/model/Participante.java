@@ -1,14 +1,15 @@
 package co.edu.uniquindio.poo.model;
 
-public class Participante {
+import java.time.LocalDate;
+
+public class Participante extends Persona{
     private int edad;
     private String paisRepresentativo;
-    private Persona personaParticipante;
 
-    public Participante(int edad, String paisRepresentativo, Persona personaParticipante) {
+    public Participante(String nombre, String apellidos, LocalDate fechaNacimiento, String nacionalidad, int edad, String paisRepresentativo) {
+        super(nombre, apellidos, fechaNacimiento, nacionalidad);
         this.edad = edad;
         this.paisRepresentativo = paisRepresentativo;
-        this.personaParticipante = personaParticipante;
     }
 
     public int getEdad() {
@@ -27,15 +28,5 @@ public class Participante {
         this.paisRepresentativo = paisRepresentativo;
     }
 
-    public Persona getPersonaParticipante() {
-        return personaParticipante;
-    }
-
-    public void setPersonaParticipante(Persona personaParticipante) {
-        this.personaParticipante = personaParticipante;
-    }
-
-    
-    
 
 }

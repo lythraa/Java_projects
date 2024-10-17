@@ -13,8 +13,28 @@ public class Equipo {
         this.listaAtletasEquipo = listaAtletasEquipo;
     }
 
-    //agregar y quitar atleta del equipo
-
+    public String agregarAtleta(Atleta atleta) throws IllegalArgumentException {
+        if (atleta == null) {
+            throw new IllegalArgumentException("El atleta no puede ser nulo");
+        }
+        if (listaAtletasEquipo.contains(atleta)) {
+            return "El atleta ya está en la lista";
+        }
+        listaAtletasEquipo.add(atleta);
+        return "Atleta añadido";
+    }
+    
+    public String eliminarAtleta(Atleta atleta) throws IllegalArgumentException {
+        if (atleta == null) {
+            throw new IllegalArgumentException("El atleta no puede ser nulo");
+        }
+        if (!listaAtletasEquipo.contains(atleta)) {
+            return "El atleta no se encuentra en la lista";
+        }
+        listaAtletasEquipo.remove(atleta);
+        return "Atleta eliminado";
+    }
+    
 
     public String getNombre() {
         return nombre;
