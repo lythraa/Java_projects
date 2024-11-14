@@ -1,6 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
-public interface Refrigerable {
+public interface RefrigerableInterface {
     public String iniciarProcesoRefrigeracion();
 
 }

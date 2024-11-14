@@ -2,7 +2,7 @@ package co.edu.uniquindio.poo.model;
 
 import java.util.Date;
 
-public class ProductoEnvasado extends ProductoBase{
+public class ProductoEnvasado extends Producto{
     private Date fechaEnvasado;
     private double pesoEnvase;
     
@@ -13,16 +13,17 @@ public class ProductoEnvasado extends ProductoBase{
         this.pesoEnvase = pesoEnvase;
     }
 
+    //Los productos envasados se venden con una utilidad de $ 300,oo sobre cada gramo del peso del envase.
     @Override
     public double calcularPrecioVenta() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularPrecioVenta'");
+        return pesoEnvase*300;
     }
 
+    //para productos envasados, es del 10%. 
     @Override
     public double calcularImpuesto() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularImpuesto'");
+        double precioVenta = calcularPrecioVenta();
+        return precioVenta*0.1;
     }
 
     public Date getFechaEnvasado() {
